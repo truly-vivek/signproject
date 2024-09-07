@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+
+  div.header {
+  background-color: #007acc; /* New background color */
+  color: #fff; /* New text color */
+  padding: 20px; /* Increased padding for a more prominent header */
+  border: none; /* Remove the border */
+  margin-bottom: 0;
+  text-align: center;
+}
+
+    h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+
+    ul#nav {
+      background-color: #333;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    li.li {
+      float: left;
+    }
+
+    li.li a {
+      display: block;
+      color: #fff;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    li.li a.focus {
+      background-color: #007acc;
+    }
+
+
+    li.li a:hover {
+      background-color: #0056a1;
+    }
+
+
+
+    .wrapper {
+      margin: 20px;
+      padding: 10px;
+      background-color: #fff;
+    }
+
+
+
+
+ body {
+      margin: 0;
+      padding: 0;
+    }
+
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer p {
+  margin: 0;
+}
+
+
+
+
+
+
+  </style>
+  <title>Homepage</title>
+    <ul id="nav">
+    <li class="li"><a  href="{% url 'home' %}">Home</a></li>
+    <li class="li"><a  href="{% url 'animation' %}">Convertor</a></li>
+    {% if not user.is_authenticated %}
+    <li class="li"><a href="{% url 'signup' %}">Sign Up</a></li>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <li class="li"><a href="{% url 'logout' %}">Log-Out</a></li>
+    {% else %}
+      <li class="li"><a href="{% url 'login' %}">Log-in</a></li>
+    {% endif %}
+    
+  </ul>
+</head>
+<body>
+ 
+
+  <div class="wrapper" >
+    {% block content %}
+    {% endblock %}
+  </div>
+
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2024 Speech to Sign. All rights reserved.</p>
+  </div>
+</footer>
+
+
+</body>
+</html>
+

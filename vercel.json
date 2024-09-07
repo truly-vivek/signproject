@@ -1,0 +1,18 @@
+{
+  "builds": [
+    {
+      "src": "manage.py",
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.9"
+      }
+    }
+  ],
+  "build": {
+    "env": {
+      "PYTHON_VERSION": "3.9"
+    }
+  },
+  "cleanUrls": true,
+  "ignoreCommand": "echo 'Ignoring cache and forcing new build.'"
+}

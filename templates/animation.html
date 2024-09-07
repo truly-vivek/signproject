@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+
+
+
+
+
+
+
+
+  /* Styling for the left side container */
+  .split.left {
+    float: left;
+    width: 45%;
+  }
+
+  /* Styling for the right side container */
+  .split.right {
+    float: right;
+    width: 45%;
+  }
+
+/* Additional styles for mobile devices */
+@media only screen and (max-width: 600px) {
+  .split.left,
+  .split.right {
+    width: 100%;
+    float: left;
+  }
+}
+
+
+
+  /* Styling for the "Enter Text or Use Mic" section */
+  .mytext {
+    width: 80%;
+  }
+
+  .mic {
+    background-color: #009688;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .submit {
+    background-color: #009688;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+
+
+
+  /* Styling for the table */
+  .td {
+    padding: 8px;
+  }
+
+  /* Styling for the video player section */
+  #videoPlayer {
+    width: 600px;
+    height: 350px;
+  }
+
+  /* Styling for the play/pause button */
+  .submit.play-pause {
+    background-color: #009688;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  /* Styling for the list of words */
+  #list li {
+    margin-right: 8px;
+  }
+
+/* Styling for the "Enter Text or Use Mic" section */
+.split.left {
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+}
+
+.mytext {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+.mic {
+  background-color: #009688;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit {
+  background-color: #009688;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* Styling for the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+td {
+  padding: 10px;
+  text-align: left;
+}
+
+/* Styling for the "Sign Language Animation" section */
+.split.right {
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+}
+
+#videoPlayer {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+}
+
+.submit.play-pause {
+  background-color: #009688;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Styling for the list of words */
+#list {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+#list li {
+  display: inline;
+  margin-right: 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+</style>
+
+<div class="split left">
+	<h2 align="center">Enter Text or Use Mic</h2>
+	<br>
+		<form action="" method="post" align="left">
+		{% csrf_token %}
+					<input type="text" name="sen" class="mytext" id="speechToText" placeholder="">
+					<button type="button" name="button" class="mic" onclick="record()"><img src="{% static 'mic3.png' %}" height="32px" width="38px" /></button>
+		  			&nbsp&nbsp&nbsp&nbsp
+		  			<input type="submit" name="submit" class="submit">
+
+		</form>
+		<br>
+		<table cellspacing="20px">
+			<tr>
+				<td class="td">The text that you entered is:</td>
+				<td class="td">{{ text }}</td>
+			</tr>
+			<tr>
+				<td class="td">Key words in sentence:</td>
+				<td class="td">
+				<ul class="td" id="list" align="center">
+  					{% for word in words %}
+    				<li id="{{ i }}" style="margin-right: 8px">{{ word }}</li>
+  					{% endfor %}
+				</ul>
+			</td>
+		</tr>
+	</table></div>
+  <div class="split right">
+  <h2 align="center">Sign Language Animation</h2>
+
+	<div style="text-align:center">	&nbsp&nbsp
+  	<button class="submit" onclick="playPause()">Play/Pause</button>
+  	<!--  LETS USE ONLY PLAY PAUSE BUTTON WITH 720 *420 ,IT FITS THE SCREEN ASHISH
+
+  	<button onclick="makeBig()">Big</button>
+  	<button onclick="makeSmall()">Small</button>
+  	<button onclick="makeNormal()">Normal</button>-->
+
+
+  	<video id="videoPlayer" width="600" height="350"  preload="auto" autoplay>
+
+    	  <source src= "{% static '' %}" type="video/mp4">
+    Your browser does not support HTML5 video.
+  	</video>
+  	</div></div>
+
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2024 Speech to Sign. All rights reserved.</p>
+  </div>
+</footer>
+
+
+<script>
+	//webkitSpeechRecognition api for speech to text conversion
+	function record(){
+		var recognition = new webkitSpeechRecognition();
+		recognition.lang='en-IN';
+
+		recognition.onresult = function(event){
+			console.log(event)
+			document.getElementById('speechToText').value = event.results[0][0].transcript;
+		}
+		recognition.start();
+	 }
+	function play()
+	{
+		var videoSource = new Array();
+		var	videos = document.getElementById("list").getElementsByTagName("li");
+		var j;
+		for(j=0;j<videos.length;j++)
+		{
+			videoSource[j] = "/static/" + videos[j].innerHTML +".mp4";
+		}
+
+		var i = 0; // define i
+		var videoCount = videoSource.length;
+
+		function videoPlay(videoNum)
+		{
+			document.getElementById("list").getElementsByTagName("li")[videoNum].style.color = "#09edc7";
+			document.getElementById("list").getElementsByTagName("li")[videoNum].style.fontSize = "xx-large";
+			document.getElementById("videoPlayer").setAttribute("src", videoSource[videoNum]);
+	    	document.getElementById("videoPlayer").load();
+	    	document.getElementById("videoPlayer").play();
+
+		}
+		document.getElementById('videoPlayer').addEventListener('ended', myHandler, false);
+		document.getElementById("list").getElementsByTagName("li")[0].style.color = "#09edc7";
+		document.getElementById("list").getElementsByTagName("li")[0].style.fontSize = "xx-large";
+
+		videoPlay(0); // play the video
+
+		function myHandler()
+		{
+	 		document.getElementById("list").getElementsByTagName("li")[i].style.color = "#feda6a";
+			document.getElementById("list").getElementsByTagName("li")[i].style.fontSize = "20px";
+			i++;
+	    	if (i == videoCount)
+	    	{
+	       	    document.getElementById("videoPlayer").pause();
+	    	}
+	     	else
+	     	{
+	        	videoPlay(i);
+	    	}
+		}
+	}
+	/* LETS USE ONLY PLAY PAUSE BUTTON WITH 720 *420 ,IT FITS THE SCREEN
+	function makeBig() {
+	    document.getElementById("videoPlayer").width = 560;
+		document.getElementById("videoPlayer").height = 360;
+	}
+
+	function makeSmall() {
+	    document.getElementById("videoPlayer").width = 320;
+		document.getElementById("videoPlayer").height = 180;
+	}
+
+	function makeNormal() {
+	    document.getElementById("videoPlayer").width = 420;
+		document.getElementById("videoPlayer").height =280;
+	}*/
+	function playPause(){
+  		if (document.getElementById("videoPlayer").paused){
+    		play();}
+  		else{
+    		document.getElementById("videoPlayer").pause();}
+		}
+
+	</script>
+
+
+{% endblock %}

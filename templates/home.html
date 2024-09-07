@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .center {
+    display: block;
+    margin: 0 auto;
+  }
+
+  video {
+    width: 500px;
+    height: 380px;
+  }
+
+  .form-style {
+    text-align: center;
+  }
+
+  .button {
+    background-color: #007acc;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .button:hover {
+    background-color: #0056a1;
+  }
+</style>
+<!-- Your existing HTML content goes here -->
+
+<video width="500" height="380" class="center" autoplay loop>
+  <source src= "{% static 'Hello.mp4' %}" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+	<div class="form-style" align="middle" >
+	<a href="{% url 'animation' %}"><button class="button">Click to Start</button></a>
+	</div>
+{% endblock %}
+
+
+
+
+<p> Speech to Sign </p>

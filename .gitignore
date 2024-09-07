@@ -1,0 +1,5 @@
+.vercel
+projectenv/
+venv/
+test-env/
+
