@@ -1,5 +1,32 @@
+
+
+
+# Ignore Vercel configuration files and environments
 .vercel
+
+# Ignore virtual environments
 projectenv/
 venv/
 test-env/
 
+# Ignore database files
+*.sqlite3
+
+# Ignore zip files and other large files
+*.zip
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore static and media files (if they are not essential to track)
+static/
+media/
+
+# Ignore log files
+*.log
