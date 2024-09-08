@@ -11,7 +11,7 @@ nltk.data.path.append(NLTK_DATA_DIR)
 # Security and environment variables
 SECRET_KEY = os.getenv('SECRET_KEY', 'ewb&)o8eo93k-moop&-o-sk00@2lsa$cz%+__45($($yd02dd^')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1, signproject.vercel.app').split(',')
 
 # Application definition
 INSTALLED_APPS = [
