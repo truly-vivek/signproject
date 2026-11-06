@@ -1,25 +1,4 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "manage.py",
-      "use": "@vercel/python",
-      "config": {
-        "runtime": "python3.9"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "A2SL/wsgi.py"
-    }
-  ],
-  "build": {
-    "env": {
-      "PYTHON_VERSION": "3.9"
-    }
-  },
-  "cleanUrls": true,
-  "ignoreCommand": "echo 'Ignoring cache and forcing new build.'"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "django"
 }
